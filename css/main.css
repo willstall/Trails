@@ -8,4 +8,28 @@ body
 {
     overflow: hidden;
     background-color: #3c3c3c;
+    font-family: 'Gloria Hallelujah', cursive;  
+    font-size: 14px;
+}
+
+#footer
+{
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    color: white;
+}
+
+a
+{
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: yellow;
 }
