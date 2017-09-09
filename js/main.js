@@ -21,14 +21,20 @@ function main()
 			springTrail.x = ( Math.random() - .5 ) * range;
 			springTrail.y = ( Math.random() - .5 ) * range;
 			springTrail.trail.color = colors[i];
+			springTrail.trail.size = Math.random() * 5;
 			springTrail.spring.k = Math.random();
 			springTrail.spring.interia = Math.random();
-
+		
 		container.addChild( springTrail );
 	}
 
 	var initialTrail = new SpringTrail();
 		initialTrail.trail.color = colors[0];
-
-	container.addChild( initialTrail );	
+		
+	container.addChild( initialTrail );
+	container.alpha = .5;
+	container.testing = "mom";
+	console.log("hello");
+	
+	//save
 }

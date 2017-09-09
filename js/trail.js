@@ -5,7 +5,9 @@
 
         this.targetX = 0;
         this.targetY = 0;
-
+        
+        this.size = 1;
+        
         this.lastTargetX = 0;
         this.lastTargetY = 0;
 
@@ -46,7 +48,7 @@
         p.drawPoints = function()
         {
             this.graphics.clear();
-            this.graphics.setStrokeStyle(1);
+            this.graphics.setStrokeStyle(this.size);
             this.graphics.beginStroke( this.color );
 
             if( this.points < 1)
