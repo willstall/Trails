@@ -13,7 +13,7 @@ function main()
 	setup();
 
 	// Project
-	var range = 50;
+	var range = {x:10,y:50};
 	// var colors = [
 	// 	{r : 255, g : 255, b: 255,a: 1},
 	// 	{r : 255, g : 255, b: 0,a: 1},
@@ -39,8 +39,8 @@ function main()
 	for(var i = 1; i < 6; i ++)
 	{
 		var springTrail = new SpringTrail();
-			springTrail.x = ( Math.random() - .5 ) * range;
-			springTrail.y = ( Math.random() - .5 ) * range;
+			springTrail.x = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
+			springTrail.y = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
 			springTrail.seed = Math.random();
 			springTrail.trail.color = colors[i%4];
 			springTrail.trail.size = Math.random() * 10;
