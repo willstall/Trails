@@ -1,3 +1,5 @@
+const lerp = (x, y, a) => x * (1 - a) + y * a;
+
 var trail;
 var spring;
 
@@ -33,7 +35,6 @@ function main()
 		
 	container.addChild( initialTrail );
 	container.alpha = .5;
-	container.testing = "mom";
 	console.log("hello");
 	
 	//save
