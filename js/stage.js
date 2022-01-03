@@ -8,9 +8,9 @@ function setup()
     canvas = document.getElementById("canvas");
 
     // Update
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCED;
     createjs.Ticker.addEventListener( "tick", tick );
-    createjs.Ticker.setFPS( 30 );
+    createjs.Ticker.setFPS( 60 );       // need RAF_SYNCHED for framerate to apply
 
     // Container
     container = new createjs.Container();

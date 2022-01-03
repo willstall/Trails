@@ -10,7 +10,7 @@
         this.trail = new Trail();
         this.trail.targetX = this.spring.x;
         this.trail.targetY = this.spring.y;
-        this.target = {x:0,y:0};
+        this.target = {x:.5,y:.5};
         this.seed = 0;
         this.TAU = Math.PI*2.0;
 

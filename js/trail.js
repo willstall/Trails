@@ -11,8 +11,8 @@
         this.lastTargetX = 0;
         this.lastTargetY = 0;
 
-        this.deletionThreshold = 0.01;
-        this.accel = .97;
+        this.deletionThreshold = 0.015 ;
+        this.accel = .98;
         this.color = {
             r : 255,
             g : 0,
