@@ -15,17 +15,19 @@
 		<script src="js/extended_container.js"></script>
 		<script src="js/trail.js"></script>
 		<script src="js/spring.js"></script>
-		<script src="js/spring_trail.js"></script>
-		<script src="js/main.js"></script>
+		<script src="js/spring_trail.js"></script>	
 	</head>
 
 	<body onload="main();">
     	<div id="content">
-        	<canvas id="canvas" width="320" height="568"></canvas>
+        	<canvas id="canvas" width="1024" height="1024"></canvas>
+			<canvas id="c"></canvas><div id="info"></div>
     	</div>
 		<div id="footer">
 			<p>made for shits n' gigs by <a href="http://twitter.com/willstall/">willstall</a></p>
 		</div>						
+		<!-- load or main javascript after the dom elements have been made -->
+		<script src="js/main.js"></script>
 	</body>
-
+	
 </html>

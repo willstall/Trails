@@ -27,8 +27,8 @@ function setup()
     createjs.Touch.enable(stage);
 
     // Resize
-    resize();
-    window.addEventListener( 'resize', resize, false );
+    // resize();
+    // window.addEventListener( 'resize', resize, false );
 }
 
 function tick( event )
@@ -39,6 +39,9 @@ function tick( event )
 
 function resize()
 {
+    if(!stage)
+        return;
+
     stage.clear();
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
