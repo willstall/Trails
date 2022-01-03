@@ -123,7 +123,7 @@ let default_opts = {
 	   throw ("Program failed to link (see console for error log).");
    }
  
-   const uniforms = 'u_resolution RA RB RC RD u_time'.split(' ');
+   const uniforms = 'u_resolution u_time u_tex0Resolution u_pixelration'.split(' ');
    for (let uni of uniforms) {
 	 loc[uni] = gl.getUniformLocation(program, uni);
    }
@@ -197,9 +197,13 @@ let default_opts = {
    gl.viewport(0, 0, c.width, c.height);
    gl.uniform2fv(loc.u_resolution, [res.x, res.y]);
    gl.uniform1f(loc.u_time, time * 0.001);
+   gl.uniform1f(loc.u_pixelration, devicePixelRatio );
    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
  
 	// texture
+
+	var canvas = document.getElementById('canvas');
+	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 	const tex1 = gl.createTexture();
 	// gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, tex1); 
@@ -209,13 +213,15 @@ let default_opts = {
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR); 
 	// Upload the image into the texture.
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById('canvas'));
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
 
 	var u_image0Location = gl.getUniformLocation(program, "u_tex0");
 	gl.uniform1i(u_image0Location, 0);  // texture unit 0
 	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, tex1);
 
+	gl.uniform2fv(loc.u_tex0Resolution, [canvas.width, canvas.height]);
+	
    requestAnimationFrame(render);
  }
  

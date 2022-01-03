@@ -19,8 +19,8 @@ precision mediump float;
 #define NEAR 0.001
 
 #ifdef GLSLVIEWER
-    #define AA 4
-    #define BLUR 30.0
+    // #define AA 4
+    // #define BLUR 30.0
 #else
     // #define AA 2
     // #define BLUR 30.0
@@ -46,10 +46,11 @@ precision mediump float;
 // ----------------------------------------------------
 
 uniform vec2 u_resolution;
-uniform vec2 u_mouse;
 uniform float u_time;
+uniform float u_pixelration;
 
 uniform sampler2D u_tex0;           // noise3.png
+uniform vec2 u_tex0Resolution;           // noise3.png
 
 // ----------------------------------------------------
 // 
@@ -121,31 +122,45 @@ vec4 blur(vec2 st,vec2 res)
     return Color;    
 }
 
-vec3 render(vec2 st,vec2 res, float t)
+vec4 render(vec2 st,vec2 res, float t)
 {
     // t = fract(t);
-    st /= res;
+    // st.x += (res.x-1024.0)*0.5;        // manually align to center?
+    // st /= res * (vec2(u_resolution/u_tex0Resolution));
+    st /= u_resolution;
+    st = center(st,res);
+    st = clamp(st,0.0,1.0);
+    // st /= res*0.75;
+
+    vec4 col = texture2D(u_tex0,st,-10.0).rgba;
+    col.rgb*=col.a;
+    // col.rgb = vec3(1.0);
+
+    return col;
     // st = clamp(st,0.0,1.0);
-    // st = center(st,res);
 
-    vec4 blur = blur(st,res);
-    vec4 col = texture2D(u_tex0,fract(st),-10.0).rgba;
+    // vec4 blur = blur(st,res);
 
-    vec3 bg = vec3(60.0, 60.0, 60.0)/255.0;
+    // vec3 bg = vec3(60.0, 60.0, 60.0)/255.0;
 
-    vec3 c1 = mix(bg,blur.rgb,blur.a);
-    vec3 c2 = mix(bg,col.rgb,col.a);
+    // vec3 c1 = mix(bg,blur.rgb,blur.a);
+    // vec3 c2 = mix(bg,col.rgb,col.a);
 
-    // vec3 c3 = mix(c1,c2,0.5);
-    // vec3 c3 = c2;
-    // c3 += c1;
-    // col = vec3(1.0);
+    // // vec3 c3 = mix(c1,c2,0.5);
+    // // vec3 c3 = c2;
+    // // c3 += c1;
+    // // col = vec3(1.0);
     
-    vec3 c = mix(c2,c1,blur.a);
-         c = sCurve(c);
+    // vec4 c = vec4(0.0);
+    //     c.rgb += blur.rgb;
+    //     c.rgb += col.rgb;
+    //     c.a = max(blur.a,col.a);
 
-    return mix(c2,c1,max(blur.a,col.a));
-    // return vec3(1.0);
+    //     c = col;
+    //     //  c = sCurve(c);
+
+    // // return mix(c2,c1,max(blur.a,col.a));
+    // // return vec3(1.0);
 }
 
 // ----------------------------------------------------
@@ -154,9 +169,9 @@ vec3 render(vec2 st,vec2 res, float t)
 // 
 // ----------------------------------------------------
 
-vec3 aa(vec2 st, vec2 res)
+vec4 aa(vec2 st, vec2 res)
 {
-    vec3 color = vec3(0.0);
+    vec4 color = vec4(0.0);
     float time = u_time;
 
     #ifdef AA
@@ -182,7 +197,7 @@ vec3 aa(vec2 st, vec2 res)
 
 void main()
 {
-    vec3 color = BACKGROUND;
+    vec4 color = vec4(BACKGROUND,0.0);
 
     #ifdef MOBILE_ADJUST
         vec2 res = vec2(min(u_resolution.x,u_resolution.y));
@@ -192,7 +207,7 @@ void main()
             res = u_resolution.xy;
         
         if ( gl_FragCoord.y < offset )
-            color = BACKGROUND;
+            color = vec4(BACKGROUND,0.0);
         else{
             color = aa(gl_FragCoord.xy - vec2(0.0,offset),res);
         }
@@ -202,5 +217,5 @@ void main()
     // vec3 dit = fract(555.*sin(777.*hash(gl_FragCoord.xyy)))/256.;
 
     // gl_FragColor = vec4(pow(color,vec3(1./2.2))+dit, 1.0);
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = color;
 }

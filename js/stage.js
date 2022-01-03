@@ -54,8 +54,10 @@ function center()
     if(!container)
         return;
 
-    container.x = window.innerWidth * 0.5;
-    container.y = window.innerHeight * 0.5;
+    // container.x = window.innerWidth * 0.5;
+    // container.y = window.innerHeight * 0.5;
+    container.x = stage.canvas.width*0.5;
+    container.y = stage.canvas.height*0.5;
 }
 
 function retinalize()
