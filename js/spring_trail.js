@@ -29,7 +29,7 @@
         {
             var d = 100.15;
             var speed = 0.5;
-            var offset_distance = this.TAU*Math.random(this.seed);
+            var offset_distance = this.TAU*0.5;
             var time = createjs.Ticker.getTime()*0.01*speed;
             var mp = this.parent.globalToLocal( this.stage.mouseX , this.stage.mouseY ) ;
                 mp.x = 0.0 + d*Math.sin(this.TAU*time + offset_distance*Math.sin(this.TAU*time + offset_distance*this.TAU*this.seed));//stage.canvas.width*0.5;
