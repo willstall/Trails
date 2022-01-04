@@ -163,7 +163,8 @@ vec4 render(vec2 st,vec2 res, float t)
         // blur.rgb += pow(blur.rgb,vec3(2.0))*30.0;
         blur.rgb += expImpulse(blur.rgb,2.0)*0.5;
 
-        blur.rgb += blur.rgb*50.0*pow(col.rgb,vec3(1.33));
+        // blur.rgb += (blur.rgb*vec3(10.5))*5.0*pow(col.rgb,vec3(1.33));
+        blur.rgb += (blur.rgb+vec3(0.1))*20.0*pow(length(col.rgb),2.33);
 
         // blur.rgb += .5*length(col)*pow(col.a,7.0);
 
