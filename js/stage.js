@@ -8,7 +8,7 @@ function setup()
     canvas = document.getElementById("canvas");
 
     // Update
-    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCED;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF;//_SYNCED;
     createjs.Ticker.addEventListener( "tick", tick );
     createjs.Ticker.setFPS( 60 );       // need RAF_SYNCHED for framerate to apply
 
@@ -22,13 +22,13 @@ function setup()
     stage.mouseMoveOutside = true;
     stage.addChild(container);
     stage.update(); 
-
+    
     // Enable Touch
     createjs.Touch.enable(stage);
-
+    
     // run without resize
     // retinalize();
-
+    
     // Resize
     // resize();    
     // window.addEventListener( 'resize', resize, false );
@@ -81,7 +81,7 @@ function retinalize()
     // Set CSS
     this.canvas.style.width = width+"px";
     this.canvas.style.height = height+"px";
-    this.stage.scaleX = this.stage.scaleY = ratio;
+    // this.stage.scaleX = this.stage.scaleY = ratio;
     
     // save original width & height into stage
     this.stage.width = originalCanvasWidth;

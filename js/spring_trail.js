@@ -28,12 +28,15 @@
 
         p.update = function( evt )
         {
+            
+            var ratio = window.devicePixelRatio;
             var d = lerp(maxSize*0.1,maxSize*0.2,this.seed.z);
             var speed = lerp(.1,.33,this.seed.z);
             var offset_distance = this.TAU;
-            var time = createjs.Ticker.getTime()*0.01*speed;
-            var offset = 0.5;
+            var time = createjs.Ticker.getTime()*0.01*speed;//*ratio;
+            var offset = 0.5;//*(1.0/ratio);
             var jitter = 5.0;
+            // jitter = 0.0;
             // var mp = this.parent.globalToLocal( this.stage.mouseX , this.stage.mouseY ) ;
             var mp = {x:0,y:0};
                 mp.x = this.target.x;

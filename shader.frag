@@ -129,9 +129,16 @@ vec3 expImpulse( vec3 x, float k )
     return h*exp(1.0-h);
 }
 
+vec4 adjust(vec4 col)
+{
+    col.rgb = sCurve(col.rgb*1.75);
+    return col;
+}
+
 vec4 render(vec2 st,vec2 res, float t)
 {
-    vec3 bg = vec3(60.0, 60.0, 60.0)/255.0;
+    vec3 bg = vec3(22.0, 10.0, 15.0)/255.0;
+    // vec3 bg = vec3(0.0667, 0.0588, 0.0588);
     // t = fract(t);
     // st.x += (res.x-1024.0)*0.5;        // manually align to center?
     // st /= res * (vec2(u_resolution/u_tex0Resolution));
@@ -143,8 +150,8 @@ vec4 render(vec2 st,vec2 res, float t)
 
     if(abs(st.x) >= 1.0 || abs(st.y) >= 1.0)
         return vec4(bg,1.0);
-
-    st *= 1.0;
+    
+    // st *= 2.0;
     st = st * 0.5 + 0.5;
 
     // st /= res*0.75;
@@ -171,11 +178,13 @@ vec4 render(vec2 st,vec2 res, float t)
     // col.rgb = vec3(1.0);
 
     // col = mix(col,blur,col.a);
+    float z = col.a;
     col = blur;
-    // col.rgb = mix(col.rgb,bg,blur.a);
+    // col.rgb = mix(col.rgb,bg,max(z,blur.a));
+    // col.rgb = mix(bg*col.a,col.rgb,1.0-col.a);
     // col.a = 1.0;
     // col.rgb = bg;
-    col.rgb = sCurve(col.rgb);
+    // col = adjust(col);
     return col;
     // st = clamp(st,0.0,1.0);
 
