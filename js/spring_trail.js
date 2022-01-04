@@ -11,7 +11,7 @@
         this.trail.targetX = this.spring.x;
         this.trail.targetY = this.spring.y;
         this.target = {x:.5,y:.5};
-        this.seed = 0;
+        this.seed = {x:0,y:0,z:0};
         this.TAU = Math.PI*2.0;
 
         this.addChild( this.spring, this.trail );
@@ -28,16 +28,21 @@
 
         p.update = function( evt )
         {
-            var d = lerp(100.0,100.15,this.seed);
-            var speed = lerp(.1,.5,this.seed);
+            var d = lerp(maxSize*0.1,maxSize*0.2,this.seed.z);
+            var speed = lerp(.1,.33,this.seed.z);
             var offset_distance = this.TAU;
             var time = createjs.Ticker.getTime()*0.01*speed;
+            var offset = 0.5;
             // var mp = this.parent.globalToLocal( this.stage.mouseX , this.stage.mouseY ) ;
             var mp = {x:0,y:0};
                 mp.x = this.target.x;
                 mp.y = this.target.y; 
-                mp.x += d*Math.sin(this.TAU*time + Math.sin(this.TAU*time + this.TAU*this.seed));
-                mp.y += d*Math.cos(this.TAU*time + Math.cos(this.TAU*time + this.TAU*this.seed));
+                // mp.x += d*Math.sin(this.TAU*time);
+                // mp.y += d*Math.cos(this.TAU*time);
+
+                mp.x += d*Math.sin(this.TAU*time + offset*Math.sin(this.TAU*time + this.TAU*this.seed.x) + this.TAU*this.seed.z);
+                mp.y += d*Math.cos(this.TAU*time + offset*Math.cos(this.TAU*time + this.TAU*this.seed.y) + this.TAU*this.seed.z);
+
                 // mp.x += this.offsetX;
                 // mp.y += this.offsetY;
 

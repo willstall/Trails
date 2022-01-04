@@ -7,13 +7,17 @@ var spring;
 var initialTrail
 var trails = [];
 
+var maxSize;
+
 function main()
 {	
 	// Setup
 	setup();
 
+	maxSize = Math.max(this.stage.canvas.width,this.stage.canvas.height);
+
 	// Project
-	var range = {x:10,y:50};
+	var range = {x:maxSize*0.0125,y:maxSize*0.0125};
 	// var colors = [
 	// 	{r : 255, g : 255, b: 255,a: 1},
 	// 	{r : 255, g : 255, b: 0,a: 1},
@@ -21,14 +25,16 @@ function main()
 	// 	{r : 255, g : 0, b: 255,a: 1}
 	// ]
 
+	var tff = 100;	// 255
 	var colors = [
-		{r : 255, g : 255, b: 255,a: 1},
-		{r : 255, g : 255, b: 0,a: 1},
-		{r : 0, g : 255, b: 255,a: 1},
-		{r : 255, g : 0, b: 255,a: 1}
+		{r : tff, g : tff, b: tff,a: 1},
+		{r : tff, g : tff, b: 0,a: 1},
+		{r : 0, g : tff, b: tff,a: 1},
+		{r : tff, g : 0, b: tff,a: 1}
 	]
 
 	initialTrail = new SpringTrail();
+	initialTrail.trail.size = 3.0;
 	initialTrail.trail.color = colors[0];
 	
 	container.addChild( initialTrail );
@@ -36,25 +42,22 @@ function main()
 
 	var target = initialTrail;
 
-	for(var i = 1; i < 6; i ++)
+	for(var i = 1; i < 4; i ++)
 	{
 		var springTrail = new SpringTrail();
 			springTrail.x = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
 			springTrail.y = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
-			springTrail.seed = Math.random();
+			springTrail.seed = {x:Math.random(),y:Math.random(),z:Math.random()};
 			springTrail.trail.color = colors[i%4];
-			springTrail.trail.size = Math.random() * 10;
+			springTrail.trail.size = lerp(2,5,Math.random());
 			springTrail.spring.k = Math.random();
 			springTrail.spring.interia = Math.random();
 			springTrail.target = target;
 
 		container.addChild( springTrail );
-		// target = springTrail;
+		target = springTrail;
 		trails[i-1] = springTrail;
 	}
-
-
-
 	// this.stage.on("tick", update, this );
 }
 
