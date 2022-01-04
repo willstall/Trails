@@ -22,8 +22,8 @@ precision mediump float;
     // #define AA 4
     // #define BLUR 30.0
 #else
-    #define AA 2
-    #define BLUR 10.0
+    // #define AA 2
+    // #define BLUR 30.0
     // #define MOBILE_ADJUST
 #endif
 
@@ -97,9 +97,9 @@ vec4 blur(vec2 st,vec2 res)
     const float Pi = 6.28318530718; // Pi*2
     
     // GAUSSIAN BLUR SETTINGS {{{
-    const float Directions = 16.0; // BLUR DIRECTIONS (Default 16.0 - More is better but slower)
-    const float Quality = 10.0; // BLUR QUALITY (Default 4.0 - More is better but slower)
-    float Size = 30.0; // BLUR SIZE (Radius)
+    const float Directions = 5.0; // BLUR DIRECTIONS (Default 16.0 - More is better but slower)
+    const float Quality = 50.0; // BLUR QUALITY (Default 4.0 - More is better but slower)
+    float Size = 120.0; // BLUR SIZE (Radius)
     // GAUSSIAN BLUR SETTINGS }}}
     const float inverseQuality = 1.0/Quality;
     vec2 Radius = Size/res.xy;
@@ -123,8 +123,15 @@ vec4 blur(vec2 st,vec2 res)
     return Color;    
 }
 
+vec3 expImpulse( vec3 x, float k )
+{
+    vec3 h = k*x;
+    return h*exp(1.0-h);
+}
+
 vec4 render(vec2 st,vec2 res, float t)
 {
+    vec3 bg = vec3(60.0, 60.0, 60.0)/255.0;
     // t = fract(t);
     // st.x += (res.x-1024.0)*0.5;        // manually align to center?
     // st /= res * (vec2(u_resolution/u_tex0Resolution));
@@ -133,12 +140,15 @@ vec4 render(vec2 st,vec2 res, float t)
     // st = clamp(st,0.0,1.0);
 
     st = st * 2.0 - 1.0;
+
+    if(abs(st.x) >= 1.0 || abs(st.y) >= 1.0)
+        return vec4(bg,1.0);
+
     st *= 0.75;
     st = st * 0.5 + 0.5;
 
     // st /= res*0.75;
 
-    vec3 bg = vec3(60.0, 60.0, 60.0)/255.0;
 
     vec4 col = texture2D(u_tex0,st,-10.0).rgba;
          col.rgb*=col.a;
@@ -148,8 +158,14 @@ vec4 render(vec2 st,vec2 res, float t)
         // blur += .5*length(col);
         // blur.rgb += pow(blur.rgb,vec3(2.0))*col.a;
         // blur.rgb = max(blur.rgb,col.rgb);
-        blur.rgb += blur.rgb*5.0*pow(col.rgb,vec3(.33));
-        blur.rgb += .5*length(col)*pow(col.a,7.0);
+
+        // blur.rgb += pow(blur.rgb,vec3(0.75))*5.0*pow(col.rgb,vec3(.33));
+        // blur.rgb += pow(blur.rgb,vec3(2.0))*30.0;
+        blur.rgb += expImpulse(blur.rgb,2.0)*0.5;
+
+        blur.rgb += blur.rgb*50.0*pow(col.rgb,vec3(1.33));
+
+        // blur.rgb += .5*length(col)*pow(col.a,7.0);
 
     // col.rgb = vec3(1.0);
 

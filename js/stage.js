@@ -26,8 +26,11 @@ function setup()
     // Enable Touch
     createjs.Touch.enable(stage);
 
+    // run without resize
+    // retinalize();
+
     // Resize
-    // resize();
+    // resize();    
     // window.addEventListener( 'resize', resize, false );
 }
 
