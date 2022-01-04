@@ -44,8 +44,10 @@ function main()
 	var ratio = 1.0/window.devicePixelRatio;
 
 	// console.log(1.0/ratio);
-	for(var i = 1; i < 4; i ++)
+	var count = 4.0;
+	for(var i = 1; i < count; i ++)
 	{
+		var prog = i/count;
 		var springTrail = new SpringTrail();
 			springTrail.x = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
 			springTrail.y = lerp(range.x,range.y,Math.random())*Math.sign(Math.random() - .5);
@@ -53,7 +55,8 @@ function main()
 			springTrail.trail.color = colors[i%4];
 			springTrail.trail.size = lerp(2,5,Math.random())*ratio;
 			springTrail.spring.k = Math.random();
-			springTrail.spring.interia = Math.random();
+			// springTrail.spring.interia = 0.001;//Math.random();
+			springTrail.spring.interia =lerp(0.001,100.0,Math.random());
 			springTrail.target = target;
 
 		container.addChild( springTrail );

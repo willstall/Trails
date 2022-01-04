@@ -33,6 +33,7 @@
             var offset_distance = this.TAU;
             var time = createjs.Ticker.getTime()*0.01*speed;
             var offset = 0.5;
+            var jitter = 5.0;
             // var mp = this.parent.globalToLocal( this.stage.mouseX , this.stage.mouseY ) ;
             var mp = {x:0,y:0};
                 mp.x = this.target.x;
@@ -42,7 +43,8 @@
 
                 mp.x += d*Math.sin(this.TAU*time + offset*Math.sin(this.TAU*time + this.TAU*this.seed.x) + this.TAU*this.seed.z);
                 mp.y += d*Math.cos(this.TAU*time + offset*Math.cos(this.TAU*time + this.TAU*this.seed.y) + this.TAU*this.seed.z);
-
+                mp.x += Math.random()*jitter;
+                mp.y += Math.random()*jitter;
                 // mp.x += this.offsetX;
                 // mp.y += this.offsetY;
 

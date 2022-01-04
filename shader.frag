@@ -144,7 +144,7 @@ vec4 render(vec2 st,vec2 res, float t)
     if(abs(st.x) >= 1.0 || abs(st.y) >= 1.0)
         return vec4(bg,1.0);
 
-    st *= 0.75;
+    st *= 1.0;
     st = st * 0.5 + 0.5;
 
     // st /= res*0.75;
@@ -161,10 +161,10 @@ vec4 render(vec2 st,vec2 res, float t)
 
         // blur.rgb += pow(blur.rgb,vec3(0.75))*5.0*pow(col.rgb,vec3(.33));
         // blur.rgb += pow(blur.rgb,vec3(2.0))*30.0;
-        blur.rgb += expImpulse(blur.rgb,2.0)*0.5;
+        blur.rgb += expImpulse(blur.rgb,2.0)*1.275;
 
         // blur.rgb += (blur.rgb*vec3(10.5))*5.0*pow(col.rgb,vec3(1.33));
-        blur.rgb += (blur.rgb+vec3(0.1))*20.0*pow(length(col.rgb),2.33);
+        blur.rgb += (blur.rgb+vec3(0.1))*15.0*pow(length(col.rgb),2.0);
 
         // blur.rgb += .5*length(col)*pow(col.a,7.0);
 
@@ -175,7 +175,7 @@ vec4 render(vec2 st,vec2 res, float t)
     // col.rgb = mix(col.rgb,bg,blur.a);
     // col.a = 1.0;
     // col.rgb = bg;
-
+    col.rgb = sCurve(col.rgb);
     return col;
     // st = clamp(st,0.0,1.0);
 
